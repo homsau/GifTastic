@@ -4,14 +4,19 @@ $(document).ready(function() {
     var movies = ["Toy Story","Monsters, Inc.","Finding Nemo","The Incredibles","Up","Inside Out"];
     var gifResults;
     var i;
+    var j;
+    var name = "";
+    var loadMore = "false";
 
     // make buttons
     function addButtons() {
+        // clear buttons and add all again in case a new one is added
         $("#buttons").empty();
         for (i = 0; i < movies.length; i++) {
-            var buttons = $("<button>").addClass("characterBtn").attr("data-name", movies[i]).text(movies[i]).css("textTransform", "capitalize");
+            var buttons = $("<button>").addClass("movieBtn").attr("data-name", movies[i]).text(movies[i]).css("textTransform", "capitalize");
             $("#buttons").append(buttons);
         };
+        //$("#more").addClass("movieBtn");
     };
     addButtons();
 
@@ -39,11 +44,24 @@ $(document).ready(function() {
     function getData() {
         $("button").on("click", function() {
             // grabbing and storing the data-name property value from the button
-            var name = $(this).attr("data-name");
             
-            $("#pixarGIFs").html("");
-            
-            // console.log(name);
+            if ($(this).attr("data-name") === name) {
+                name = $(this).attr("data-name");
+                console.log(this);
+                loadMore = true;
+                $("#pixarGIFs").html("");
+                j = j + 10;
+            } else {
+                name = $(this).attr("data-name");
+                $("#pixarGIFs").html("");
+                j = 10;
+            }
+            $("#more").attr("data-name", name).css("display","block");
+            /*$("button#more").on("click", function() {
+                getData();
+            });*/
+            console.log(loadMore);
+            console.log(name);
             // added "Pixar " to narrow the search down
             var gifURL = "https://api.giphy.com/v1/gifs/search?q=" + "Pixar " + name + "&api_key=sblaAmKxYnbI6e15gS95XuAMeqpbV64E";
 
@@ -53,35 +71,41 @@ $(document).ready(function() {
                 method: "GET"
             }).then(function(response) {
                 var results = response.data;
-                console.log(results);
-                // looping through each result item
-                for (var i = 0; i < 10; i++) {
-                // creating and storing a div tag
-                var characterDiv = $("<div>").addClass("gifDiv");
-                // create a p tag for displaying the rating
-                var rating = (results[i].rating).toUpperCase();
-                var p = $("<p>").html("Rating: " + rating);
-                // creating and storing an image tag which is the gif
-                var characterImage = $("<img>").attr({
-                    class : "gif",
-                    // setting the src attribute of the image to a property pulled off the result item
-                    "src" : results[i].images.fixed_height_still.url,
-                    "data-state" : "still",
-                    "data-still" : results[i].images.fixed_height_still.url,
-                    "data-animate" : results[i].images.fixed_height.url
-                });
+                // console.log(results);
+                // TOTAL OF 25 SO CAN'T LOAD MORE THAN THAT
                 
-                // appending the paragraph and image tag to the pixarGIFs div
-                characterDiv.append(characterImage);
-                characterDiv.append(p);
-                // prepend the gifs to the HTML page in the pixarGIFs div
-                $("#pixarGIFs").prepend(characterDiv);
+                // looping through each result item
+                for (i = 0; i < j; i++) {
+                    // creating and storing a div tag
+                    var characterDiv = $("<div>").addClass("gifDiv");
+                    // create a p tag for displaying the rating
+                    var rating = (results[i].rating).toUpperCase();
+                    var p = $("<p>").html("Rating: " + rating);
+                    // creating and storing an image tag which is the gif
+                    var characterImage = $("<img>").attr({
+                        class : "gif",
+                        // setting the src attribute of the image to a property pulled off the result item
+                        "src" : results[i].images.fixed_height_still.url,
+                        "data-state" : "still",
+                        "data-still" : results[i].images.fixed_height_still.url,
+                        "data-animate" : results[i].images.fixed_height.url
+                    });
+
+                    /*function loadMoreGIFs() {
+                        console.log("hi");
+                    }*/
+
+                    // appending the paragraph and image tag to the pixarGIFs div
+                    characterDiv.append(characterImage);
+                    characterDiv.append(p);
+                    // append the gifs to the HTML page in the pixarGIFs div
+                    $("#pixarGIFs").append(characterDiv);
                 }
             }); 
         });
     } getData();
 
-    // animate
+    // animate gifs
     $(document).on("click", ".gif", function () {
         //$(".gif").on("click", function() {
         var state = $(this).attr("data-state");
