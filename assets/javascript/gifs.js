@@ -1,38 +1,37 @@
 $(document).ready(function() {
     
     // declare variables
-    var characters = ["Stan Marsh","Kyle Brofloski","Eric Cartman","Kenny McCormick","Randy Marsh","Token Black","Craig Tucker","Towelie"];
+    var movies = ["Toy Story","Monsters, Inc.","Finding Nemo","The Incredibles","Up","Inside Out"];
     var gifResults;
     var i;
-    
 
     // make buttons
     function addButtons() {
         $("#spButtons").empty();
-        for (i = 0; i < characters.length; i++) {
-            var buttons = $("<button>").addClass("characterBtn").attr("data-name", characters[i]).text(characters[i]).css("textTransform", "capitalize");
+        for (i = 0; i < movies.length; i++) {
+            var buttons = $("<button>").addClass("characterBtn").attr("data-name", movies[i]).text(movies[i]).css("textTransform", "capitalize");
             $("#spButtons").append(buttons);
         };
     };
     addButtons();
 
     // disable input field by default
-    $("#spCharacterSubmit").prop("disabled",true);
+    $("#spmoviesubmit").prop("disabled",true);
     $("#spInput").keyup(function() {
-        $("#spCharacterSubmit").prop("disabled", this.value == "" ? true : false);
+        $("#spmoviesubmit").prop("disabled", this.value == "" ? true : false);
     });
 
     // add click function for adding a new button
-    $("#spCharacterSubmit").on("click", function(event) {
+    $("#spmoviesubmit").on("click", function(event) {
         event.preventDefault();
         var spCharacter = $("#spInput").val().trim();
-	    characters.push(spCharacter);
+	    movies.push(spCharacter);
         $("#spInput").val("");
-        $("#spCharacterSubmit").prop("disabled",true);
+        $("#spmoviesubmit").prop("disabled",true);
         $("#spInput").keyup(function(){
-            $("#spCharacterSubmit").prop("disabled", this.value == "" ? true : false);     
+            $("#spmoviesubmit").prop("disabled", this.value == "" ? true : false);     
         });
-        //console.log(characters);
+        //console.log(movies);
         addButtons();
         getData();
     });
@@ -48,7 +47,7 @@ $(document).ready(function() {
             //$("#spGIFs").html("");
             // api/ajax function to get response
             console.log(name);
-            var gifURL = "https://api.giphy.com/v1/gifs/search?q=" + name + "&api_key=sblaAmKxYnbI6e15gS95XuAMeqpbV64E";
+            var gifURL = "https://api.giphy.com/v1/gifs/search?q=" + "Pixar " + name + "&api_key=sblaAmKxYnbI6e15gS95XuAMeqpbV64E";
 
             $.ajax({
                 url: gifURL,
