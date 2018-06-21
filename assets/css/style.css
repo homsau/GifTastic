@@ -1,0 +1,25 @@
+#title {
+    margin-bottom: 20px;
+    text-align: center;
+}
+#buttons {
+    text-align: center;
+}
+#buttons button {
+    margin: 0 20px 20px;
+}
+#movieInput {
+    text-align: center;
+}
+#pixarGIFs {
+    text-align: center;
+    width: 100%;
+}
+#pixarGIFs .gifDiv {
+    display: inline-block;
+    width: 300px;
+}
+#pixarGIFs .gifDiv img {
+    width: 100%;
+    padding: 20px;
+}

@@ -7,31 +7,30 @@ $(document).ready(function() {
 
     // make buttons
     function addButtons() {
-        $("#spButtons").empty();
+        $("#buttons").empty();
         for (i = 0; i < movies.length; i++) {
             var buttons = $("<button>").addClass("characterBtn").attr("data-name", movies[i]).text(movies[i]).css("textTransform", "capitalize");
-            $("#spButtons").append(buttons);
+            $("#buttons").append(buttons);
         };
     };
     addButtons();
 
     // disable input field by default
-    $("#spmoviesubmit").prop("disabled",true);
-    $("#spInput").keyup(function() {
-        $("#spmoviesubmit").prop("disabled", this.value == "" ? true : false);
+    $("#pixarMovieSubmit").prop("disabled",true);
+    $("#pixarInput").keyup(function() {
+        $("#pixarMovieSubmit").prop("disabled", this.value == "" ? true : false);
     });
 
     // add click function for adding a new button
-    $("#spmoviesubmit").on("click", function(event) {
+    $("#pixarMovieSubmit").on("click", function(event) {
         event.preventDefault();
-        var spCharacter = $("#spInput").val().trim();
-	    movies.push(spCharacter);
-        $("#spInput").val("");
-        $("#spmoviesubmit").prop("disabled",true);
-        $("#spInput").keyup(function(){
-            $("#spmoviesubmit").prop("disabled", this.value == "" ? true : false);     
+        var pixarMovie = $("#pixarInput").val().trim();
+	    movies.push(pixarMovie);
+        $("#pixarInput").val("");
+        $("#pixarMovieSubmit").prop("disabled",true);
+        $("#pixarInput").keyup(function(){
+            $("#pixarMovieSubmit").prop("disabled", this.value == "" ? true : false);     
         });
-        //console.log(movies);
         addButtons();
         getData();
     });
@@ -41,14 +40,14 @@ $(document).ready(function() {
         $("button").on("click", function() {
             // grabbing and storing the data-name property value from the button
             var name = $(this).attr("data-name");
-            // the line below was going to clear the gifs so that the page wouldn't get
-            // really long on each button click... according to the instructions
-            // it should just add them
-            //$("#spGIFs").html("");
-            // api/ajax function to get response
-            console.log(name);
+            
+            $("#pixarGIFs").html("");
+            
+            // console.log(name);
+            // added "Pixar " to narrow the search down
             var gifURL = "https://api.giphy.com/v1/gifs/search?q=" + "Pixar " + name + "&api_key=sblaAmKxYnbI6e15gS95XuAMeqpbV64E";
 
+            // api/ajax function to get response
             $.ajax({
                 url: gifURL,
                 method: "GET"
@@ -65,24 +64,21 @@ $(document).ready(function() {
                 // creating and storing an image tag which is the gif
                 var characterImage = $("<img>").attr({
                     class : "gif",
-                    //"data-state" : "still",
-                    "src" : results[i].images.fixed_height.url,
+                    // setting the src attribute of the image to a property pulled off the result item
+                    "src" : results[i].images.fixed_height_still.url,
+                    "data-state" : "still",
                     "data-still" : results[i].images.fixed_height_still.url,
                     "data-animate" : results[i].images.fixed_height.url
                 });
-                //$(".gif").attr("data-state", "still");
-                // setting the src attribute of the image to a property pulled off the result item
-                // characterImage.attr("src", results[i].images.fixed_height.url);
-                // characterImage.attr(data-state, "still");
-                // appending the paragraph and image tag to the spGIFs div
+                
+                // appending the paragraph and image tag to the pixarGIFs div
                 characterDiv.append(characterImage);
                 characterDiv.append(p);
-                // prepend the gifs to the HTML page in the spGIFs div
-                $("#spGIFs").prepend(characterDiv);
+                // prepend the gifs to the HTML page in the pixarGIFs div
+                $("#pixarGIFs").prepend(characterDiv);
                 }
             }); 
         });
-        //$(document).on("click", ".gif", animateGIFs);
     } getData();
 
     // animate
@@ -91,7 +87,7 @@ $(document).ready(function() {
         var state = $(this).attr("data-state");
         // If the clicked image's state is still, update its src attribute to what its data-animate value is.
         // Then, set the image's data-state to animate
-        // Else set src to the data-still value
+        // Else, set src to the data-still value
         if (state === "still") {
             $(this).attr("src", $(this).attr("data-animate"));
             $(this).attr("data-state", "animate");
