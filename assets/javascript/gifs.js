@@ -56,7 +56,7 @@ $(document).ready(function() {
                 $("#pixarGIFs").html("");
                 j = 10;
             }
-            $("#more").attr("data-name", name).css("display","block");
+            // $("#more").attr("data-name", name).css("display","block");
             /*$("button#more").on("click", function() {
                 getData();
             });*/
@@ -71,7 +71,7 @@ $(document).ready(function() {
                 method: "GET"
             }).then(function(response) {
                 var results = response.data;
-                // console.log(results);
+                console.log(results);
                 // TOTAL OF 25 SO CAN'T LOAD MORE THAN THAT
                 
                 // looping through each result item
@@ -80,7 +80,8 @@ $(document).ready(function() {
                     var characterDiv = $("<div>").addClass("gifDiv");
                     // create a p tag for displaying the rating
                     var rating = (results[i].rating).toUpperCase();
-                    var p = $("<p>").html("Rating: " + rating);
+                    var pRating = $("<p>").html("Rating: " + rating);
+                    var pTitle = $("<p>").html("Title: " + (results[i].title));
                     // creating and storing an image tag which is the gif
                     var characterImage = $("<img>").attr({
                         class : "gif",
@@ -97,7 +98,8 @@ $(document).ready(function() {
 
                     // appending the paragraph and image tag to the pixarGIFs div
                     characterDiv.append(characterImage);
-                    characterDiv.append(p);
+                    characterDiv.append(pRating);
+                    characterDiv.append(pTitle);
                     // append the gifs to the HTML page in the pixarGIFs div
                     $("#pixarGIFs").append(characterDiv);
                 }
