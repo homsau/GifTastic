@@ -44,7 +44,8 @@ $(document).ready(function() {
     function getData() {
         $("button").on("click", function() {
             // grabbing and storing the data-name property value from the button
-            
+            // if the button that has already been selected is pressed again, wipe the gifs
+            // and load the same ones again + 10.
             if ($(this).attr("data-name") === name) {
                 name = $(this).attr("data-name");
                 console.log(this);
@@ -52,6 +53,7 @@ $(document).ready(function() {
                 $("#pixarGIFs").html("");
                 j = j + 10;
             } else {
+                // wipe the gifs and load 10 gifs for the new button pushed
                 name = $(this).attr("data-name");
                 $("#pixarGIFs").html("");
                 j = 10;
