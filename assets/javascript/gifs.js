@@ -48,7 +48,7 @@ $(document).ready(function() {
             // and load the same ones again + 10.
             if ($(this).attr("data-name") === name) {
                 name = $(this).attr("data-name");
-                console.log(this);
+                // console.log(this);
                 loadMore = true;
                 $("#pixarGIFs").html("");
                 j = j + 10;
@@ -62,8 +62,8 @@ $(document).ready(function() {
             /*$("button#more").on("click", function() {
                 getData();
             });*/
-            console.log(loadMore);
-            console.log(name);
+            // console.log(loadMore);
+            // console.log(name);
             // added "Pixar " to narrow the search down
             var gifURL = "https://api.giphy.com/v1/gifs/search?q=" + "Pixar " + name + "&api_key=sblaAmKxYnbI6e15gS95XuAMeqpbV64E";
 
@@ -73,7 +73,7 @@ $(document).ready(function() {
                 method: "GET"
             }).then(function(response) {
                 var results = response.data;
-                console.log(results);
+                // console.log(results);
                 // TOTAL OF 25 SO CAN'T LOAD MORE THAN THAT
                 
                 // looping through each result item
